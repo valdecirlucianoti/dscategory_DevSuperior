@@ -25,28 +25,28 @@ public class CategoryService {
 
 	@Transactional(readOnly = true)
 	public List<CategoryDTO> findAll() {
-		List<Category> categoryList = repository.findAll();
+		List<Category> list = repository.findAll();
 
 		// Esta unica linha de código simplifica todo o for que ocorre nas linhas abaixo
-		return categoryList.stream().map(category -> new CategoryDTO(category)).collect(Collectors.toList());
+		return list.stream().map(entity -> new CategoryDTO(entity)).collect(Collectors.toList());
 
 		/*
-		 * List<CategoryDTO> listDTO = new ArrayList<>(); for (Category category : list)
-		 * {listDTO.add(new CategoryDTO(category));}return listDTO;
+		 * List<CategoryDTO> listDTO = new ArrayList<>(); for (Category entity : list)
+		 * {listDTO.add(new CategoryDTO(entity));}return listDTO;
 		 */
 	}
 
 	@Transactional(readOnly = true)
 	public Page<CategoryDTO> findAllPaged(PageRequest pageRequest) {
-		Page<Category> categoryList = repository.findAll(pageRequest);
-		return categoryList.map(category -> new CategoryDTO(category));
+		Page<Category> list = repository.findAll(pageRequest);
+		return list.map(entity -> new CategoryDTO(entity));
 	}
 
 	@Transactional(readOnly = true)
 	public CategoryDTO findById(Long id) {
 		Optional<Category> optional = repository.findById(id);
-		Category category = optional.orElseThrow(() -> new ResourceNotFoundException("Entity not found"));
-		return new CategoryDTO(category);
+		Category entity = optional.orElseThrow(() -> new ResourceNotFoundException("Entity not found"));
+		return new CategoryDTO(entity);
 	}
 
 	@Transactional
